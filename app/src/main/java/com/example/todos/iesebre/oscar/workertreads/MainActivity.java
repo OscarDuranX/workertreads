@@ -38,23 +38,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 new Thread(new Runnable() {
                     public void run() {
-                        Bitmap b = loadImageFromNetwork("http://example.com/image.png");
-                        mImageView.setImageBitmap(b);
+                        final Bitmap bitmap = loadImageFromNetwork("http://example.com/image.png");
+                        mImageView.post(new Runnable() {
+                            public void run() {
+                                mImageView.setImageBitmap(bitmap);
+                            }
+                        });
                     }
                 }).start();
             }
 
-//            public void onClick(View v) {
-//
-//                new Thread(new Runnable() {
-//                    public void run() {
-//                        Bitmap b = loadImageFromNetwork("http://example.com/image.png");
-//                        mImageView.setImageBitmap(b);
-//                    }
-//                }).start();
-//
-//
-//            }
 
             private Bitmap loadImageFromNetwork(String url) {
                 try {
