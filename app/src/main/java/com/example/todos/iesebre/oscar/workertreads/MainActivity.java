@@ -36,8 +36,12 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                Bitmap b = loadImageFromNetwork("http://example.com/image.png");
-                mImageView.setImageBitmap(b);
+                new Thread(new Runnable() {
+                    public void run() {
+                        Bitmap b = loadImageFromNetwork("http://example.com/image.png");
+                        mImageView.setImageBitmap(b);
+                    }
+                }).start();
             }
 
 //            public void onClick(View v) {
