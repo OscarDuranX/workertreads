@@ -3,6 +3,7 @@ package com.example.todos.iesebre.oscar.workertreads;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -30,23 +31,31 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mImageView = (ImageView) findViewById(R.id.imageMostra);
+    }
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                new Thread(new Runnable() {
-                    public void run() {
-                        final Bitmap bitmap = loadImageFromNetwork("http://example.com/image.png");
-                        mImageView.post(new Runnable() {
-                            public void run() {
-                                mImageView.setImageBitmap(bitmap);
-                            }
-                        });
-                    }
-                }).start();
+                new DownloadImageTask().execute("http://imgs.abduzeedo.com/files/articles/logos-s/858aa104a4eb27eb3d0e3a62964c103e.png");
             }
+
+            private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+                /** The system calls this to perform work in a worker thread and
+                 * delivers it the parameters given to AsyncTask.execute() */
+                protected Bitmap doInBackground(String... urls) {
+                    return loadImageFromNetwork(urls[0]);
+                }
+
+                /** The system calls this to perform work in the UI thread and delivers
+                 * the result from doInBackground() */
+                protected void onPostExecute(Bitmap result) {
+                    mImageView.setImageBitmap(result);
+                }
+            }
+
 
 
             private Bitmap loadImageFromNetwork(String url) {
@@ -60,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
-       });
+//       });
 
 
-    }
+
 }
