@@ -15,6 +15,8 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ImageView mImageView;
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -27,24 +29,30 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        mImageView = (ImageView) findViewById(R.id.imageMostra);
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
-            @Override
+
             public void onClick(View v) {
-
-                new Thread(new Runnable() {
-                    public void run() {
-                        Bitmap b = loadImageFromNetwork("http://example.com/image.png");
-                        mImageView.setImageBitmap(b);
-                    }
-                }).start();
-
-
+                Bitmap b = loadImageFromNetwork("http://example.com/image.png");
+                mImageView.setImageBitmap(b);
             }
 
-            private Bitmap loadImageFromNetwork(String url){
+//            public void onClick(View v) {
+//
+//                new Thread(new Runnable() {
+//                    public void run() {
+//                        Bitmap b = loadImageFromNetwork("http://example.com/image.png");
+//                        mImageView.setImageBitmap(b);
+//                    }
+//                }).start();
+//
+//
+//            }
+
+            private Bitmap loadImageFromNetwork(String url) {
                 try {
                     Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL(url).getContent());
                     return bitmap;
@@ -55,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
-        });
+       });
 
 
     }
